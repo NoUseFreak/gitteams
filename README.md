@@ -17,3 +17,6 @@ GitTeams gives you insight into multiple repositories at once.
 
 ## Install
 
+```
+curl -sL http://bit.ly/gh-get | PROJECT=NoUseFreak/gitteams bash
+```
