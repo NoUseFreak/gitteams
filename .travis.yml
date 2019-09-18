@@ -11,3 +11,4 @@ deploy:
   on:
     repo: NoUseFreak/gitteams
     branch: master
+    tags: true
