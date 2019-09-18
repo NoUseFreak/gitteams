@@ -9,9 +9,9 @@ import (
 
 func init() {
 	rootCmd.PersistentFlags().StringP("sort", "s", "", "Sort by column (name, branch, loc)")
-	rootCmd.PersistentFlags().StringP("output", "o", "table", "Output format (table, html, csv)")
+	rootCmd.PersistentFlags().StringP("format", "o", "table", "Output format (table, html, csv)")
 	viper.BindPFlag("sort", rootCmd.PersistentFlags().Lookup("sort"))
-	viper.BindPFlag("output", rootCmd.PersistentFlags().Lookup("output"))
+	viper.BindPFlag("format", rootCmd.PersistentFlags().Lookup("format"))
 }
 
 var repositoryColumn = ReportColumn{
@@ -23,7 +23,7 @@ var repositoryColumn = ReportColumn{
 
 type ReportOptions struct {
 	Sort    string
-	Output  string
+	Format  string
 	Columns []ReportColumn
 }
 
@@ -69,7 +69,7 @@ func Report(repos []Repo, options *ReportOptions) {
 		Mode: sortColumn.Sort,
 	}})
 
-	switch options.Output {
+	switch options.Format {
 	case "csv":
 		fmt.Println(tw.RenderCSV())
 	case "html":
@@ -85,8 +85,8 @@ func applyCommandArgs(opts *ReportOptions) *ReportOptions {
 	if sort := viper.GetString("sort"); sort != "" {
 		opts.Sort = sort
 	}
-	if output := viper.GetString("output"); output != "" {
-		opts.Output = output
+	if format := viper.GetString("format"); format != "" {
+		opts.Format = format
 	}
 	return opts
 }
