@@ -1,0 +1,14 @@
+sudo: required
+language: go
+go:
+- master
+deploy:
+  provider: releases
+  api_key:
+    secure: W8eV01J7w7AIg9CTwMvv/7/iPzTT99aAAa658f/QW2P6l4Vn2+KZWhagWt16zP30vtQDDKq6g/xyB2Ii43dHDv0JE/3WYvt6H3NykkwL7dtsbnPB+o1pOtK1p1ENGS5VSySES+fB1K0I1nnELLdBzk6bUr2AbR1BRe+9zMAFtxY0EAQO5T39ZfXEsW/aiDb4dtvmfvmO+fSmjBK8heGj8cEcPTPuNMU2byPhpEzyjPOhjiE8bK9y/qNZ8tS5FP4WbzD8D+YgdSaDEGrG/tE+c0HtT1zyet4IR0/fSIHxkSbzz5BUnqmZd1gSlIegzNlDjtKAlaklSHeTAi5yfIBRm3KpSsojE0IHgNraHnU0GqdiUgwnsfYAcP/c3EP7ifZZQmUBK/o4SATuB0qnx25x6ynoU8jMf9Vq08Wd2oPYH+ASGLtZwxfpNLeOppgZ3VQwdpU/uJxmXO1xGILXALg2WE6wAnmZm6jEXS3kHzMtlmGwjNHbEBGbLArNwWBflTKU0p5IIOQHtKHs8nVbl2ztdplgPERicSx7F/F1D0KntgxEN6txxedES2Zd9ijbzHS5L93cKqeNNXU7f1jFvvvL/HwX86iBvpX00AX+6bWVovBVRpOMgIuuN8yu/q66o7vP10zuaorxyyb6mv/qSd0q3XM7C0Ofp33/gycs6kurYmk=
+  file_glob: true
+  file: build/pkg/*
+  skip_cleanup: true
+  on:
+    repo: NoUseFreak/gitteams
+    branch: master
