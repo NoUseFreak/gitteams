@@ -4,7 +4,7 @@ func NewRepo(vcsType string, origin *RepoOrigin) Repo {
 	return Repo{
 		Type:   vcsType,
 		Origin: origin,
-		Data:   map[string]int32{},
+		Data:   map[string]interface{}{},
 	}
 }
 
@@ -16,7 +16,7 @@ type Repo struct {
 	MainBranch string
 	TmpDir     string
 	Branches   []string
-	Data       map[string]int32
+	Data       map[string]interface{}
 }
 
 type RepoOrigin struct {

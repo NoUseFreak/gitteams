@@ -9,10 +9,11 @@ import (
 )
 
 var branchCountColumn = ReportColumn{
-	ID:    "branches",
-	Name:  "branch count",
-	Sort:  table.DscNumeric,
-	Value: func(r *Repo) interface{} { return len(r.Branches) },
+	ID:        "branches",
+	Name:      "branch count",
+	Sort:      table.DscNumeric,
+	ValueType: "int",
+	Value:     func(r *Repo) interface{} { return len(r.Branches) },
 }
 
 func GetBranches(repo Repo) Repo {

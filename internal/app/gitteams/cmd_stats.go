@@ -25,6 +25,7 @@ func executeStats(cmd *cobra.Command, args []string) {
 		GetBranches,
 		CountLoc,
 		GetMerged,
+		GetLanguage,
 	})
 
 	logrus.Info("Report")
@@ -35,6 +36,7 @@ func executeStats(cmd *cobra.Command, args []string) {
 			branchCountColumn,
 			locColumn,
 			mergedColumn,
+			languageColumn,
 		},
 	})
 }

@@ -11,10 +11,11 @@ import (
 )
 
 var mergedColumn = ReportColumn{
-	ID:    "merged",
-	Name:  "Merged",
-	Sort:  table.DscNumeric,
-	Value: func(r *Repo) interface{} { return r.Data["merged"] },
+	ID:        "merged",
+	Name:      "Merged",
+	Sort:      table.DscNumeric,
+	ValueType: "int32",
+	Value:     func(r *Repo) interface{} { return r.Data["merged"] },
 }
 
 func GetMerged(repo Repo) Repo {
@@ -22,6 +23,7 @@ func GetMerged(repo Repo) Repo {
 		repo = GetBranches(repo)
 	}
 
+	repo.Data["merged"] = int32(0)
 	for _, branch := range repo.Branches {
 		switch branch {
 		case repo.MainBranch, "develop", "master":
@@ -39,7 +41,7 @@ func GetMerged(repo Repo) Repo {
 
 		if strings.TrimSpace(outb.String()) == "0" {
 			logrus.Debugf("Found fully merged branch - %s", branch)
-			repo.Data["merged"]++
+			repo.Data["merged"] = repo.Data["merged"].(int32) + 1
 		}
 	}
 

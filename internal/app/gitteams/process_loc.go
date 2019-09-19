@@ -8,10 +8,11 @@ import (
 )
 
 var locColumn = ReportColumn{
-	ID:    "loc",
-	Name:  "Lines of code",
-	Sort:  table.DscNumeric,
-	Value: func(r *Repo) interface{} { return r.Data["loc"] },
+	ID:        "loc",
+	Name:      "Lines of code",
+	Sort:      table.DscNumeric,
+	ValueType: "int32",
+	Value:     func(r *Repo) interface{} { return r.Data["loc"] },
 }
 
 func CountLoc(repo Repo) Repo {

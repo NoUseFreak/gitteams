@@ -28,10 +28,11 @@ type ReportOptions struct {
 }
 
 type ReportColumn struct {
-	ID    string
-	Name  string
-	Sort  table.SortMode
-	Value func(*Repo) interface{}
+	ID        string
+	Name      string
+	Sort      table.SortMode
+	ValueType string
+	Value     func(*Repo) interface{}
 }
 
 type ReportModel struct {
