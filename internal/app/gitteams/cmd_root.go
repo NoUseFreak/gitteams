@@ -45,3 +45,9 @@ func setRootFlag(name, shorthand, value, usage string) {
 	viper.BindPFlag(name, rootCmd.PersistentFlags().Lookup(name))
 	viper.BindEnv(name)
 }
+
+func setRootFlagBool(name, shorthand string, value bool, usage string) {
+	rootCmd.PersistentFlags().BoolP(name, shorthand, value, usage)
+	viper.BindPFlag(name, rootCmd.PersistentFlags().Lookup(name))
+	viper.BindEnv(name)
+}
