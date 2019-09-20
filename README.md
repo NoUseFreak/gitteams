@@ -8,6 +8,23 @@
 
 GitTeams gives you insight into multiple repositories at once.
 
+## Example
+
+```
+$ gitteams --github-token=<token> --github-username=<username>  stats --sort=branches 
+INFO[0000] Collecting repos                             
+INFO[0000] Processing                                   
+INFO[0001] Report                                       
+┌─────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ REPO                                     BRANCH COUNT  LANGUAGE           LINES OF CODE  MERGED │
+├─────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ gh:NoUseFreak/Cron                                  3  PHP (76%)                     33       0 │
+│ gh:NoUseFreak/docker-multi-cache                    1  Go (22%)                       6       0 │
+│ gh:NoUseFreak/cicd                                  1  Go (60%)                      33       0 │
+...
+└─────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
 ## Platforms
 
  - Github
