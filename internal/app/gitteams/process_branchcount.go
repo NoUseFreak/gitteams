@@ -40,7 +40,11 @@ func (p *BranchProcessor) Process(repo Repo) Repo {
 	out := strings.TrimSuffix(outb.String(), "\n")
 	for _, s := range strings.Split(out, "\n") {
 		s = strings.TrimSpace(s)
-		branch := strings.Split(s, " ")[0][7:]
+		parts := strings.Split(s, " ")
+		if s == "" || len(parts) < 1 {
+			continue
+		}
+		branch := parts[0][7:]
 		if branch != "HEAD" {
 			repo.Branches = append(repo.Branches, branch)
 		}
