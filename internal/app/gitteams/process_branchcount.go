@@ -8,15 +8,27 @@ import (
 	"github.com/jedib0t/go-pretty/table"
 )
 
-var branchCountColumn = ReportColumn{
-	ID:        "branches",
-	Name:      "branch count",
-	Sort:      table.DscNumeric,
-	ValueType: "int",
-	Value:     func(r *Repo) interface{} { return len(r.Branches) },
+func init() {
+	p := new(BranchProcessor)
+	commands = append(commands, DynamicCommand{
+		Name:         "branch",
+		Processor:    p.Process,
+		ReportColumn: p.GetReportColumn(),
+	})
 }
 
-func GetBranches(repo Repo) Repo {
+type BranchProcessor struct{}
+
+func (p *BranchProcessor) GetReportColumn() ReportColumn {
+	return ReportColumn{
+		ID:        "branches",
+		Name:      "branch count",
+		Sort:      table.DscNumeric,
+		ValueType: "int",
+		Value:     func(r *Repo) interface{} { return len(r.Branches) },
+	}
+}
+func (p *BranchProcessor) Process(repo Repo) Repo {
 	cmd := exec.Command("git", "branch", "-r")
 	cmd.Dir = repo.TmpDir
 	var outb bytes.Buffer

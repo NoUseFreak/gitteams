@@ -13,15 +13,28 @@ import (
 	"github.com/src-d/enry/v2"
 )
 
-var languageColumn = ReportColumn{
-	ID:        "language",
-	Name:      "Language",
-	Sort:      table.Asc,
-	ValueType: "string",
-	Value:     func(r *Repo) interface{} { return r.Data["language"] },
+func init() {
+	p := new(LanguageProcessor)
+	commands = append(commands, DynamicCommand{
+		Name:         "language",
+		Processor:    p.Process,
+		ReportColumn: p.GetReportColumn(),
+	})
 }
 
-func GetLanguage(repo Repo) Repo {
+type LanguageProcessor struct{}
+
+func (p *LanguageProcessor) GetReportColumn() ReportColumn {
+	return ReportColumn{
+		ID:        "language",
+		Name:      "Language",
+		Sort:      table.Asc,
+		ValueType: "string",
+		Value:     func(r *Repo) interface{} { return r.Data["language"] },
+	}
+}
+
+func (p *LanguageProcessor) Process(repo Repo) Repo {
 	cmd := exec.Command("git", "ls-tree", "-r", "HEAD", "--name-only")
 	cmd.Dir = repo.TmpDir
 	var outb bytes.Buffer
@@ -47,12 +60,12 @@ func GetLanguage(repo Repo) Repo {
 	}
 	delete(languages, "")
 	repo.Data["languages"] = languages
-	repo.Data["language"] = formatLanguageResult(languages)
+	repo.Data["language"] = p.formatLanguageResult(languages)
 
 	return repo
 }
 
-func formatLanguageResult(data map[string]int) string {
+func (p *LanguageProcessor) formatLanguageResult(data map[string]int) string {
 	key := "unknown"
 	total := 0
 	high := -1

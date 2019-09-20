@@ -10,17 +10,29 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-var mergedColumn = ReportColumn{
-	ID:        "merged",
-	Name:      "Merged",
-	Sort:      table.DscNumeric,
-	ValueType: "int32",
-	Value:     func(r *Repo) interface{} { return r.Data["merged"] },
+func init() {
+	p := new(MergedProcessor)
+	commands = append(commands, DynamicCommand{
+		Name:         "merged",
+		Processor:    p.Process,
+		ReportColumn: p.GetReportColumn(),
+	})
 }
 
-func GetMerged(repo Repo) Repo {
+type MergedProcessor struct{}
+
+func (p *MergedProcessor) GetReportColumn() ReportColumn {
+	return ReportColumn{
+		ID:        "merged",
+		Name:      "Merged",
+		Sort:      table.DscNumeric,
+		ValueType: "int32",
+		Value:     func(r *Repo) interface{} { return r.Data["merged"] },
+	}
+}
+func (p *MergedProcessor) Process(repo Repo) Repo {
 	if len(repo.Branches) == 0 {
-		repo = GetBranches(repo)
+		repo = new(BranchProcessor).Process(repo)
 	}
 
 	repo.Data["merged"] = int32(0)

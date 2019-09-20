@@ -21,8 +21,10 @@ func CollectRepos() []Repo {
 
 	for _, c := range GetCollectors() {
 		if c.IsAvailable() {
-			logrus.Debugf("Collecting %s", c.GetName())
+			logrus.Debugf("Collecting - %s", c.GetName())
 			repos = append(repos, c.Collect()...)
+		} else {
+			logrus.Debugf("Collecting skipped - %s", c.GetName())
 		}
 	}
 

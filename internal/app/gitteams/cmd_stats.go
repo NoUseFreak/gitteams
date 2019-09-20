@@ -17,26 +17,22 @@ func init() {
 }
 
 func executeStats(cmd *cobra.Command, args []string) {
+	processors := []Processor{}
+	reportColumns := []ReportColumn{repositoryColumn}
+	for _, c := range commands {
+		processors = append(processors, c.Processor)
+		reportColumns = append(reportColumns, c.ReportColumn)
+	}
+
 	logrus.Info("Collecting repos")
 	repos := CollectRepos()
 
 	logrus.Info("Processing")
-	result := Process(repos, 50, []Processor{
-		GetBranches,
-		CountLoc,
-		GetMerged,
-		GetLanguage,
-	})
+	result := Process(repos, 50, processors)
 
 	logrus.Info("Report")
 	Report(result, &ReportOptions{
-		Sort: "name",
-		Columns: []ReportColumn{
-			repositoryColumn,
-			branchCountColumn,
-			locColumn,
-			mergedColumn,
-			languageColumn,
-		},
+		Sort:    "name",
+		Columns: reportColumns,
 	})
 }
