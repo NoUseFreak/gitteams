@@ -11,6 +11,7 @@
 ## Configuration
 
 ```
-GITTEAMS_GH_TEAM=teamname
-GITTEAMS_GH_TOKEN=yourtoken
+GITTEAMS_GITHUB_USERNAME=username    # Optional
+GITTEAMS_GITHUB_TEAM=teamname        # Optional
+GITTEAMS_GITHUB_TOKEN=yourtoken      # Required
 ```

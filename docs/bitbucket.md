@@ -11,7 +11,7 @@
 ## Configuration
 
 ```
-GITTEAMS_BB_TEAM=teamname
-GITTEAMS_BB_USERNAME=yourusername
-GITTEAMS_BB_PASSWORD=yourapppassword
+GITTEAMS_BITBUCKET_TEAM=teamname
+GITTEAMS_BITBUCKET_USERNAME=yourusername
+GITTEAMS_BITBUCKET_PASSWORD=yourapppassword
 ```

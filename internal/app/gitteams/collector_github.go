@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/google/go-github/v28/github"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"golang.org/x/oauth2"
 )
@@ -11,6 +12,7 @@ import (
 func init() {
 	setRootFlag("github-token", "", "", "Github token")
 	setRootFlag("github-team", "", "", "Github team")
+	setRootFlag("github-username", "", "", "Github username")
 }
 
 type GithubCollector struct{}
@@ -20,17 +22,19 @@ func (b *GithubCollector) GetName() string {
 }
 
 func (gh *GithubCollector) IsAvailable() bool {
-	return viper.GetString("github-team") != ""
+	return viper.GetString("github-team") != "" ||
+		viper.GetString("github-username") != ""
 }
 
 func (gh *GithubCollector) Collect() []Repo {
 	return gh.collectGithub(
 		viper.GetString("github-token"),
 		viper.GetString("github-team"),
+		viper.GetString("github-username"),
 	)
 }
 
-func (gh *GithubCollector) collectGithub(token, team string) []Repo {
+func (gh *GithubCollector) collectGithub(token, team, username string) []Repo {
 	origin := RepoOrigin{
 		Name:  "github",
 		Short: "gh",
@@ -38,7 +42,7 @@ func (gh *GithubCollector) collectGithub(token, team string) []Repo {
 
 	result := []Repo{}
 
-	for _, ghrepo := range gh.fetchGithubRepos(token, team) {
+	for _, ghrepo := range gh.fetchGithubRepos(token, team, username) {
 		repo := NewRepo("git", &origin)
 
 		repo.MainBranch = ghrepo.GetDefaultBranch()
@@ -51,7 +55,7 @@ func (gh *GithubCollector) collectGithub(token, team string) []Repo {
 	return result
 }
 
-func (gh *GithubCollector) fetchGithubRepos(token, team string) []*github.Repository {
+func (gh *GithubCollector) fetchGithubRepos(token, team, username string) []*github.Repository {
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: token},
@@ -59,8 +63,25 @@ func (gh *GithubCollector) fetchGithubRepos(token, team string) []*github.Reposi
 	tc := oauth2.NewClient(ctx, ts)
 
 	client := github.NewClient(tc)
-	opt := &github.RepositoryListByOrgOptions{Type: "sources"}
-	ghrepos, _, _ := client.Repositories.ListByOrg(ctx, team, opt)
+	ghrepos := []*github.Repository{}
+	if team != "" {
+		teamrepos, _, err := client.Repositories.ListByOrg(ctx, team, &github.RepositoryListByOrgOptions{
+			Type: "sources",
+		})
+		if err != nil {
+			logrus.Error(err)
+		}
+		ghrepos = append(ghrepos, teamrepos...)
+	}
+	if username != "" {
+		userrepos, _, err := client.Repositories.List(ctx, username, &github.RepositoryListOptions{
+			Type: "sources",
+		})
+		if err != nil {
+			logrus.Error(err)
+		}
+		ghrepos = append(ghrepos, userrepos...)
+	}
 
 	return ghrepos
 }
