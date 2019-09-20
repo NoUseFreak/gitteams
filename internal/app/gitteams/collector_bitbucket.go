@@ -9,6 +9,7 @@ func init() {
 	setRootFlag("bitbucket-username", "", "", "Bitbucket username")
 	setRootFlag("bitbucket-password", "", "", "Bitbucket password")
 	setRootFlag("bitbucket-team", "", "", "Bitbucket token")
+	setRootFlagBool("bitbucket-include-personal", "", true, "Bitbucket include personal repositories")
 }
 
 type BitbucketCollector struct{}
@@ -18,7 +19,9 @@ func (b *BitbucketCollector) GetName() string {
 }
 
 func (b *BitbucketCollector) IsAvailable() bool {
-	return viper.GetString("bitbucket-team") != ""
+	return viper.GetString("bitbucket-username") != "" &&
+		viper.GetString("bitbucket-password") != "" &&
+		(viper.GetString("bitbucket-team") != "" || viper.GetBool("bitbucket-include-personal"))
 }
 
 func (b *BitbucketCollector) Collect() []Repo {
@@ -26,28 +29,49 @@ func (b *BitbucketCollector) Collect() []Repo {
 		viper.GetString("bitbucket-username"),
 		viper.GetString("bitbucket-password"),
 		viper.GetString("bitbucket-team"),
+		viper.GetBool("bitbucket-include-personal"),
 	)
 }
 
-func (b *BitbucketCollector) collectBitbucket(username, password, team string) []Repo {
+func (b *BitbucketCollector) collectBitbucket(username, password, team string, personal bool) []Repo {
+	c := bitbucket.NewBasicAuth(username, password)
+
+	all := []Repo{}
+	if viper.GetString("bitbucket-team") != "" {
+		repos, err := c.Repositories.ListForTeam(&bitbucket.RepositoriesOptions{
+			Owner: team,
+		})
+		if err != nil {
+			panic(err)
+		}
+		all = append(all, b.parseResult(repos)...)
+	}
+	if viper.GetBool("bitbucket-include-personal") {
+		repos, err := c.Repositories.ListForAccount(&bitbucket.RepositoriesOptions{
+			Owner: username,
+		})
+		if err != nil {
+			panic(err)
+		}
+		all = append(all, b.parseResult(repos)...)
+	}
+
+	return all
+}
+
+func (b BitbucketCollector) parseResult(repos interface{}) []Repo {
 	origin := RepoOrigin{
 		Name:  "bitbucket",
 		Short: "bb",
 	}
 
 	result := []Repo{}
-
-	c := bitbucket.NewBasicAuth(username, password)
-	repos, err := c.Repositories.ListForTeam(&bitbucket.RepositoriesOptions{
-		Owner: team,
-	})
-	if err != nil {
-		panic(err)
-	}
-
 	for _, v := range repos.(map[string]interface{})["values"].([]interface{}) {
 		repo := NewRepo("git", &origin)
 		r := v.(map[string]interface{})
+		if r["mainbranch"] == nil {
+			continue
+		}
 		repo.MainBranch = r["mainbranch"].(map[string]interface{})["name"].(string)
 		repo.Name = r["full_name"].(string)
 		repo.URL = b.bbGetURL(r)
