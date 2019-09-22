@@ -12,7 +12,7 @@ import (
 func init() {
 	setRootFlag("github-token", "", "", "Github token")
 	setRootFlag("github-team", "", "", "Github team")
-	setRootFlag("github-username", "", "", "Github username")
+	setRootFlag("github-username", "", "", "Github username, provide to get personal repositories")
 	setRootFlagBool("github-include-forks", "", true, "Github include forks")
 }
 

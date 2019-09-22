@@ -8,6 +8,7 @@ import (
 func init() {
 	setRootFlag("gitlab-token", "", "", "Gitlab token")
 	setRootFlag("gitlab-team", "", "", "Gitlab team")
+	setRootFlagBool("gitlab-include-personal", "", true, "Gitlab include personal repositories")
 }
 
 type GitlabCollector struct{}
@@ -17,17 +18,18 @@ func (b *GitlabCollector) GetName() string {
 }
 
 func (gh *GitlabCollector) IsAvailable() bool {
-	return viper.GetString("gitlab-group") != ""
+	return viper.GetString("gitlab-group") != "" || viper.GetBool("gitlab-include-personal")
 }
 
 func (gh *GitlabCollector) Collect() []Repo {
 	return gh.collectGitlab(
 		viper.GetString("gitlab-token"),
 		viper.GetString("gitlab-group"),
+		viper.GetBool("gitlab-include-personal"),
 	)
 }
 
-func (gh *GitlabCollector) collectGitlab(token, group string) []Repo {
+func (gh *GitlabCollector) collectGitlab(token, group string, personal bool) []Repo {
 	origin := RepoOrigin{
 		Name:  "gitlab",
 		Short: "gl",
@@ -35,7 +37,7 @@ func (gh *GitlabCollector) collectGitlab(token, group string) []Repo {
 
 	result := []Repo{}
 
-	for _, data := range gh.fetchGitlabRepos(token, group) {
+	for _, data := range gh.fetchGitlabRepos(token, group, personal) {
 		repo := NewRepo("git", &origin)
 
 		repo.MainBranch = data.DefaultBranch
@@ -48,13 +50,28 @@ func (gh *GitlabCollector) collectGitlab(token, group string) []Repo {
 	return result
 }
 
-func (gh *GitlabCollector) fetchGitlabRepos(token, group string) []*gitlab.Project {
+func (gh *GitlabCollector) fetchGitlabRepos(token, group string, personal bool) []*gitlab.Project {
 	client := gitlab.NewClient(nil, token)
 
-	projects, _, err := client.Groups.ListGroupProjects(group, &gitlab.ListGroupProjectsOptions{})
-	if err != nil {
-		panic(err)
+	all := []*gitlab.Project{}
+
+	if group != "" {
+		projects, _, err := client.Groups.ListGroupProjects(group, &gitlab.ListGroupProjectsOptions{})
+		if err != nil {
+			panic(err)
+		}
+		all = append(all, projects...)
 	}
 
-	return projects
+	if personal {
+		projects, _, err := client.Projects.ListProjects(&gitlab.ListProjectsOptions{
+			Owned: gitlab.Bool(true),
+		})
+		if err != nil {
+			panic(err)
+		}
+		all = append(all, projects...)
+	}
+
+	return all
 }
