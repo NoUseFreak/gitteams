@@ -39,6 +39,7 @@ INFO[0001] Report
 | Lines of Code   | Count the lines of code in each repository.           |
 | Language        | Find the most common language in each repository.     |
 | Merged branches | Count all branched fully merged into the main branch. |
+| Tag count       | Count all tags into each repository.                  |
 
 ## Install
 

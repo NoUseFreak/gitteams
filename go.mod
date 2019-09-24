@@ -6,9 +6,11 @@ require (
 	github.com/NoUseFreak/go-parallel v0.0.0-20190604224018-2ba374bf3cf1
 	github.com/NoUseFreak/go-vembed v0.0.0-20190907214958-237badc5deed
 	github.com/go-openapi/strfmt v0.19.3 // indirect
+	github.com/google/go-cmp v0.3.1 // indirect
 	github.com/google/go-github/v28 v28.1.1
 	github.com/hhatto/gocloc v0.3.0
 	github.com/jedib0t/go-pretty v4.3.0+incompatible
+	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/k0kubun/pp v3.0.1+incompatible // indirect
 	github.com/ktrysmt/go-bitbucket v0.4.1
 	github.com/mattn/go-colorable v0.1.2 // indirect
