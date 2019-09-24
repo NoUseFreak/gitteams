@@ -41,6 +41,14 @@ INFO[0001] Report
 
 ## Install
 
+__Binary__
+
 ```
 curl -sL http://bit.ly/gh-get | PROJECT=NoUseFreak/gitteams bash
+```
+
+__Docker__
+
+```
+docker pull nousefreak/gitteams
 ```
