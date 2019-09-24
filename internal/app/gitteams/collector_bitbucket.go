@@ -12,18 +12,22 @@ func init() {
 	setRootFlagBool("bitbucket-include-personal", "", true, "Bitbucket include personal repositories")
 }
 
+// BitbucketCollector collects repositories hosted on bitbucket.org.
 type BitbucketCollector struct{}
 
+// GetName return the name of the collector.
 func (b *BitbucketCollector) GetName() string {
 	return "bitbucket"
 }
 
+// IsAvailable checks if the required config is present to collect the data.
 func (b *BitbucketCollector) IsAvailable() bool {
 	return viper.GetString("bitbucket-username") != "" &&
 		viper.GetString("bitbucket-password") != "" &&
 		(viper.GetString("bitbucket-team") != "" || viper.GetBool("bitbucket-include-personal"))
 }
 
+// Collect get the data from the origins api.
 func (b *BitbucketCollector) Collect() []Repo {
 	return b.collectBitbucket(
 		viper.GetString("bitbucket-username"),

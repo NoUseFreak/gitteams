@@ -11,8 +11,11 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// Processor is an interface that performs an action on a repository.
+// Collected data can be stored on repo.Data.
 type Processor func(Repo) Repo
 
+// Process triggers every Processor. It does this in multiple threads.
 func Process(repos []Repo, threads int, actions []Processor) []Repo {
 	logrus.Debugf("Processing with %d threads", threads)
 	input := parallel.Input{}
@@ -21,7 +24,10 @@ func Process(repos []Repo, threads int, actions []Processor) []Repo {
 	}
 	p := parallel.Processor{Threads: threads}
 	result := p.Process(input, func(i interface{}) interface{} {
-		repo := clone(i.(Repo))
+		repo, err := clone(i.(Repo))
+		if err != nil {
+			return repo
+		}
 		logrus.Tracef("Processing %s", repo.URL)
 		for _, a := range actions {
 			repo = a(repo)
@@ -37,7 +43,7 @@ func Process(repos []Repo, threads int, actions []Processor) []Repo {
 	return res
 }
 
-func clone(repo Repo) Repo {
+func clone(repo Repo) (Repo, error) {
 	repo.TmpDir = getTmpDir(repo.URL)
 
 	if _, err := os.Stat(repo.TmpDir); os.IsNotExist(err) {
@@ -45,16 +51,21 @@ func clone(repo Repo) Repo {
 		cloneCmd := exec.Command("git", "clone", repo.URL, repo.TmpDir)
 		err := cloneCmd.Run()
 		if err != nil {
-			panic(err)
+			logrus.Errorf("Failed to clone %s (%s)", repo.URL, err)
+			return repo, err
 		}
 	} else {
 		logrus.Tracef("Fetching %s", repo.URL)
 		fetchCmd := exec.Command("git", "fetch", "-p")
 		fetchCmd.Dir = repo.TmpDir
-		fetchCmd.Run()
+		err := fetchCmd.Run()
+		if err != nil {
+			logrus.Errorf("Failed to fetch %s (%s)", repo.URL, err)
+			return repo, err
+		}
 	}
 
-	return repo
+	return repo, nil
 }
 
 func getTmpDir(url string) string {

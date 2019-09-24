@@ -1,5 +1,6 @@
 package gitteams
 
+// NewRepo creates a new instance of a Repo.
 func NewRepo(vcsType string, origin *RepoOrigin) Repo {
 	return Repo{
 		Type:   vcsType,
@@ -8,6 +9,7 @@ func NewRepo(vcsType string, origin *RepoOrigin) Repo {
 	}
 }
 
+// Repo represents a repository and also serves as a DTO between processors.
 type Repo struct {
 	URL        string
 	Origin     *RepoOrigin
@@ -19,6 +21,7 @@ type Repo struct {
 	Data       map[string]interface{}
 }
 
+// RepoOrigin defines the origin or the repository.
 type RepoOrigin struct {
 	Name  string
 	Short string

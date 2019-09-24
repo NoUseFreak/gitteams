@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// DynamicCommand represents an command that can be registered.
 type DynamicCommand struct {
 	Name         string
 	Processor    Processor
@@ -13,6 +14,8 @@ type DynamicCommand struct {
 
 var commands = []DynamicCommand{}
 
+// CreateDynamicCommands registers any DynamicCommand instances added in their
+// init function.
 func CreateDynamicCommands() {
 	for _, c := range commands {
 		createCommand(c)

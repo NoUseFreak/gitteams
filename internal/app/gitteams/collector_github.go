@@ -16,17 +16,21 @@ func init() {
 	setRootFlagBool("github-include-forks", "", true, "Github include forks")
 }
 
+// GithubCollector collects repositories hosted on github.com.
 type GithubCollector struct{}
 
-func (b *GithubCollector) GetName() string {
+// GetName return the name of the collector.
+func (gh *GithubCollector) GetName() string {
 	return "github"
 }
 
+// IsAvailable checks if the required config is present to collect the data.
 func (gh *GithubCollector) IsAvailable() bool {
 	return viper.GetString("github-team") != "" ||
 		viper.GetString("github-username") != ""
 }
 
+// Collect get the data from the origins api.
 func (gh *GithubCollector) Collect() []Repo {
 	return gh.collectGithub(
 		viper.GetString("github-token"),

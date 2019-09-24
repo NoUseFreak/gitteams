@@ -11,25 +11,29 @@ func init() {
 	setRootFlagBool("gitlab-include-personal", "", true, "Gitlab include personal repositories")
 }
 
+// GitlabCollector collects repositories hosted on github.com.
 type GitlabCollector struct{}
 
-func (b *GitlabCollector) GetName() string {
+// GetName return the name of the collector.
+func (gl *GitlabCollector) GetName() string {
 	return "gitlab"
 }
 
-func (gh *GitlabCollector) IsAvailable() bool {
+// IsAvailable checks if the required config is present to collect the data.
+func (gl *GitlabCollector) IsAvailable() bool {
 	return viper.GetString("gitlab-group") != "" || viper.GetBool("gitlab-include-personal")
 }
 
-func (gh *GitlabCollector) Collect() []Repo {
-	return gh.collectGitlab(
+// Collect get the data from the origins api.
+func (gl *GitlabCollector) Collect() []Repo {
+	return gl.collectGitlab(
 		viper.GetString("gitlab-token"),
 		viper.GetString("gitlab-group"),
 		viper.GetBool("gitlab-include-personal"),
 	)
 }
 
-func (gh *GitlabCollector) collectGitlab(token, group string, personal bool) []Repo {
+func (gl *GitlabCollector) collectGitlab(token, group string, personal bool) []Repo {
 	origin := RepoOrigin{
 		Name:  "gitlab",
 		Short: "gl",
@@ -37,7 +41,7 @@ func (gh *GitlabCollector) collectGitlab(token, group string, personal bool) []R
 
 	result := []Repo{}
 
-	for _, data := range gh.fetchGitlabRepos(token, group, personal) {
+	for _, data := range gl.fetchGitlabRepos(token, group, personal) {
 		repo := NewRepo("git", &origin)
 
 		repo.MainBranch = data.DefaultBranch
@@ -50,7 +54,7 @@ func (gh *GitlabCollector) collectGitlab(token, group string, personal bool) []R
 	return result
 }
 
-func (gh *GitlabCollector) fetchGitlabRepos(token, group string, personal bool) []*gitlab.Project {
+func (gl *GitlabCollector) fetchGitlabRepos(token, group string, personal bool) []*gitlab.Project {
 	client := gitlab.NewClient(nil, token)
 
 	all := []*gitlab.Project{}

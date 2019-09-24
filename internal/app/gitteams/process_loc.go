@@ -16,8 +16,10 @@ func init() {
 	})
 }
 
+// LOCProcessor counts the lines of code in a repository.
 type LOCProcessor struct{}
 
+// GetReportColumn defines how the information should be shown in the report.
 func (p *LOCProcessor) GetReportColumn() ReportColumn {
 	return ReportColumn{
 		ID:        "loc",
@@ -28,6 +30,7 @@ func (p *LOCProcessor) GetReportColumn() ReportColumn {
 	}
 }
 
+// Process counts the lines of code in a repository.
 func (p *LOCProcessor) Process(repo Repo) Repo {
 	languages := gocloc.NewDefinedLanguages()
 	options := gocloc.NewClocOptions()

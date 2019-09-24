@@ -22,8 +22,10 @@ func init() {
 	})
 }
 
+// LanguageProcessor detects what languages are used in a repository.
 type LanguageProcessor struct{}
 
+// GetReportColumn defines how the information should be shown in the report.
 func (p *LanguageProcessor) GetReportColumn() ReportColumn {
 	return ReportColumn{
 		ID:        "language",
@@ -34,6 +36,7 @@ func (p *LanguageProcessor) GetReportColumn() ReportColumn {
 	}
 }
 
+// Process collects the languages used in the repository.
 func (p *LanguageProcessor) Process(repo Repo) Repo {
 	cmd := exec.Command("git", "ls-tree", "-r", "HEAD", "--name-only")
 	cmd.Dir = repo.TmpDir

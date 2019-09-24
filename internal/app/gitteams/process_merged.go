@@ -19,8 +19,11 @@ func init() {
 	})
 }
 
+// MergedProcessor retrieves a count for the number of branches fully merged
+// into the main branch.
 type MergedProcessor struct{}
 
+// GetReportColumn defines how the information should be shown in the report.
 func (p *MergedProcessor) GetReportColumn() ReportColumn {
 	return ReportColumn{
 		ID:        "merged",
@@ -30,6 +33,8 @@ func (p *MergedProcessor) GetReportColumn() ReportColumn {
 		Value:     func(r *Repo) interface{} { return r.Data["merged"] },
 	}
 }
+
+// Process collects the branch count.
 func (p *MergedProcessor) Process(repo Repo) Repo {
 	if len(repo.Branches) == 0 {
 		repo = new(BranchProcessor).Process(repo)

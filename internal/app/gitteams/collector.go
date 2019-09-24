@@ -2,12 +2,14 @@ package gitteams
 
 import "github.com/sirupsen/logrus"
 
+// Collector is an interface for collecting data from different platforms.
 type Collector interface {
 	GetName() string
 	IsAvailable() bool
 	Collect() []Repo
 }
 
+// GetCollectors returns a list of available collectors.
 func GetCollectors() []Collector {
 	return []Collector{
 		new(BitbucketCollector),
@@ -16,6 +18,7 @@ func GetCollectors() []Collector {
 	}
 }
 
+// CollectRepos return repositories collected by all collectors.
 func CollectRepos() []Repo {
 	repos := []Repo{}
 

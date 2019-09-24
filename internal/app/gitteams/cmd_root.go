@@ -16,6 +16,7 @@ var rootCmd = &cobra.Command{
 	Long:  `Git Teams helps you manage all project at once.`,
 }
 
+// Execute runs the cli application.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
