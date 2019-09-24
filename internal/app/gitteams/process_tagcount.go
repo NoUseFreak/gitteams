@@ -11,6 +11,8 @@ func init() {
 	p := new(TagCountProcessor)
 	commands = append(commands, DynamicCommand{
 		Name:         "tags",
+		Short:        "Count number of tags",
+		Long:         "Count the number of tags in each repository",
 		Processor:    p.Process,
 		ReportColumn: p.GetReportColumn(),
 	})

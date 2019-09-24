@@ -12,6 +12,8 @@ func init() {
 	p := new(MergedProcessor)
 	commands = append(commands, DynamicCommand{
 		Name:         "merged",
+		Short:        "Count merged branches",
+		Long:         "Count the number of branches merged into the main branch",
 		Processor:    p.Process,
 		ReportColumn: p.GetReportColumn(),
 	})

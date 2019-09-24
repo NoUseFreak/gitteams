@@ -8,6 +8,8 @@ import (
 // DynamicCommand represents an command that can be registered.
 type DynamicCommand struct {
 	Name         string
+	Short        string
+	Long         string
 	Processor    Processor
 	ReportColumn ReportColumn
 }
@@ -25,8 +27,8 @@ func CreateDynamicCommands() {
 func createCommand(c DynamicCommand) {
 	rootCmd.AddCommand(&cobra.Command{
 		Use:   c.Name,
-		Short: "Count number of branches",
-		Long:  `Count number of branches`,
+		Short: c.Short,
+		Long:  c.Long,
 		Run: func(cmd *cobra.Command, args []string) {
 			logrus.Info("Collecting repos")
 			repos := CollectRepos()

@@ -15,6 +15,8 @@ func init() {
 	p := new(LanguageProcessor)
 	commands = append(commands, DynamicCommand{
 		Name:         "language",
+		Short:        "Show main language in repository",
+		Long:         "Show main language in each repository",
 		Processor:    p.Process,
 		ReportColumn: p.GetReportColumn(),
 	})

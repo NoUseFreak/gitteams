@@ -11,6 +11,8 @@ func init() {
 	p := new(CommitCountProcessor)
 	commands = append(commands, DynamicCommand{
 		Name:         "commits",
+		Short:        "Count commits in repository",
+		Long:         "Count the numbers of commits in the repository.",
 		Processor:    p.Process,
 		ReportColumn: p.GetReportColumn(),
 	})

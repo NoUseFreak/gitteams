@@ -26,6 +26,28 @@ INFO[0001] Report
 └─────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+## More info
+
+To see all options available, check the help function.
+
+```
+$ gitteams help
+Git Teams helps you manage all project at once.
+
+Usage:
+  gitteams [command]
+
+Available Commands:
+  author      Count number of authors
+  branch      Count number of branches
+  commits     Count commits in repository
+  help        Help about any command
+  language    Show main language in repository
+  loc         Get LOC count in repositories
+  merged      Count merged branches
+...
+```
+
 ## Platforms
 
  - Github

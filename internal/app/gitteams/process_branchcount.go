@@ -11,6 +11,8 @@ func init() {
 	p := new(BranchProcessor)
 	commands = append(commands, DynamicCommand{
 		Name:         "branch",
+		Short:        "Count number of branches",
+		Long:         "Count the number of branches in each repository.",
 		Processor:    p.Process,
 		ReportColumn: p.GetReportColumn(),
 	})

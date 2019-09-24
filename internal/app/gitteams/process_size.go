@@ -15,6 +15,8 @@ func init() {
 	p := new(SizeProcessor)
 	commands = append(commands, DynamicCommand{
 		Name:         "size",
+		Short:        "Get repository size",
+		Long:         "Get the size of the repository for each repository",
 		Processor:    p.Process,
 		ReportColumn: p.GetReportColumn(),
 	})

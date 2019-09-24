@@ -11,6 +11,8 @@ func init() {
 	p := new(LOCProcessor)
 	commands = append(commands, DynamicCommand{
 		Name:         "loc",
+		Short:        "Get LOC count in repositories",
+		Long:         "Get lines of code in each repository",
 		Processor:    p.Process,
 		ReportColumn: p.GetReportColumn(),
 	})

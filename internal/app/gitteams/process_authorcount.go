@@ -11,6 +11,8 @@ func init() {
 	p := new(AuthorCountProcessor)
 	commands = append(commands, DynamicCommand{
 		Name:         "author",
+		Short:        "Count number of authors",
+		Long:         "Count the number of authors in each repository.",
 		Processor:    p.Process,
 		ReportColumn: p.GetReportColumn(),
 	})
