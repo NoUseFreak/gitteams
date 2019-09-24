@@ -1,8 +1,6 @@
 package gitteams
 
 import (
-	"bytes"
-	"os/exec"
 	"strings"
 
 	"github.com/jedib0t/go-pretty/table"
@@ -34,20 +32,14 @@ func (p *BranchProcessor) GetReportColumn() ReportColumn {
 
 // Process collects the branches.
 func (p *BranchProcessor) Process(repo Repo) Repo {
-	cmd := exec.Command("git", "branch", "-r")
-	cmd.Dir = repo.TmpDir
-	var outb bytes.Buffer
-	cmd.Stderr = &outb
-	cmd.Stdout = &outb
-	cmd.Run()
+	repo.Branches = []string{}
 
-	if cmd.ProcessState.ExitCode() != 0 {
+	out, err := repoExec(repo, "git", "branch", "-r")
+	if err != nil {
 		logrus.Warnf("Failed to fetch branched for %s in %s", repo.URL, repo.TmpDir)
 		return repo
 	}
 
-	repo.Branches = []string{}
-	out := strings.TrimSuffix(outb.String(), "\n")
 	for _, s := range strings.Split(out, "\n") {
 		s = strings.TrimSpace(s)
 		parts := strings.Split(s, " ")

@@ -1,11 +1,14 @@
 package gitteams
 
 import (
+	"bytes"
 	"crypto/md5"
 	"encoding/hex"
+	"errors"
 	"os"
 	"os/exec"
 	"path"
+	"strings"
 
 	"github.com/NoUseFreak/go-parallel"
 	"github.com/sirupsen/logrus"
@@ -74,4 +77,21 @@ func getTmpDir(url string) string {
 	hash := hex.EncodeToString(hasher.Sum(nil))
 
 	return path.Join(os.TempDir(), "gitcleanup", hash)
+}
+
+func repoExec(repo Repo, c ...string) (string, error) {
+	cmd := exec.Command(c[0], c[1:]...)
+	cmd.Dir = repo.TmpDir
+	var outb bytes.Buffer
+	cmd.Stderr = &outb
+	cmd.Stdout = &outb
+	cmd.Run()
+
+	out := strings.TrimSpace(strings.TrimSuffix(outb.String(), "\n"))
+
+	if cmd.ProcessState.ExitCode() != 0 {
+		return out, errors.New("Command failed")
+	}
+
+	return out, nil
 }

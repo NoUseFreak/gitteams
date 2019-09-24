@@ -1,10 +1,7 @@
 package gitteams
 
 import (
-	"bytes"
-	"os/exec"
 	"strconv"
-	"strings"
 
 	"github.com/jedib0t/go-pretty/table"
 	"github.com/sirupsen/logrus"
@@ -35,19 +32,14 @@ func (p *CommitCountProcessor) GetReportColumn() ReportColumn {
 
 // Process collects the commit count.
 func (p *CommitCountProcessor) Process(repo Repo) Repo {
-	cmd := exec.Command("git", "rev-list", "--all", "--count")
-	cmd.Dir = repo.TmpDir
-	var outb bytes.Buffer
-	cmd.Stderr = &outb
-	cmd.Stdout = &outb
-	cmd.Run()
+	repo.Data["commitcount"] = 0
 
-	if cmd.ProcessState.ExitCode() != 0 {
+	out, err := repoExec(repo, "git", "rev-list", "--all", "--count")
+	if err != nil {
 		logrus.Warnf("Failed to count commits for %s in %s", repo.URL, repo.TmpDir)
 		return repo
 	}
 
-	out := strings.TrimSuffix(outb.String(), "\n")
 	if number, err := strconv.Atoi(out); err == nil {
 		repo.Data["commitcount"] = number
 	}

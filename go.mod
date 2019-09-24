@@ -5,6 +5,7 @@ go 1.13
 require (
 	github.com/NoUseFreak/go-parallel v0.0.0-20190604224018-2ba374bf3cf1
 	github.com/NoUseFreak/go-vembed v0.0.0-20190907214958-237badc5deed
+	github.com/dustin/go-humanize v1.0.0
 	github.com/go-openapi/strfmt v0.19.3 // indirect
 	github.com/google/go-cmp v0.3.1 // indirect
 	github.com/google/go-github/v28 v28.1.1

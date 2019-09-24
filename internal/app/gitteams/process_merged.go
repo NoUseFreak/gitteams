@@ -1,9 +1,7 @@
 package gitteams
 
 import (
-	"bytes"
 	"fmt"
-	"os/exec"
 	"strings"
 
 	"github.com/jedib0t/go-pretty/table"
@@ -46,17 +44,16 @@ func (p *MergedProcessor) Process(repo Repo) Repo {
 		case repo.MainBranch, "develop", "master":
 			continue
 		}
-		cmd := exec.Command("git", "rev-list",
-			fmt.Sprintf("origin/%s..origin/%s", repo.MainBranch, branch),
-			"--count",
-		)
-		cmd.Dir = repo.TmpDir
-		var outb bytes.Buffer
-		cmd.Stderr = &outb
-		cmd.Stdout = &outb
-		cmd.Run()
 
-		if strings.TrimSpace(outb.String()) == "0" {
+		out, err := repoExec(repo, "git", "rev-list",
+			fmt.Sprintf("origin/%s..origin/%s", repo.MainBranch, branch),
+			"--count")
+		if err != nil {
+			logrus.Warnf("Failed to fetch merged branches for %s in %s", repo.URL, repo.TmpDir)
+			return repo
+		}
+
+		if strings.TrimSpace(out) == "0" {
 			logrus.Debugf("Found fully merged branch - %s", branch)
 			repo.Data["merged"] = repo.Data["merged"].(int32) + 1
 		}

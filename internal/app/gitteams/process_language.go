@@ -1,10 +1,8 @@
 package gitteams
 
 import (
-	"bytes"
 	"fmt"
 	"io/ioutil"
-	"os/exec"
 	"path"
 	"strings"
 
@@ -38,14 +36,12 @@ func (p *LanguageProcessor) GetReportColumn() ReportColumn {
 
 // Process collects the languages used in the repository.
 func (p *LanguageProcessor) Process(repo Repo) Repo {
-	cmd := exec.Command("git", "ls-tree", "-r", "HEAD", "--name-only")
-	cmd.Dir = repo.TmpDir
-	var outb bytes.Buffer
-	cmd.Stderr = &outb
-	cmd.Stdout = &outb
-	cmd.Run()
+	out, err := repoExec(repo, "git", "ls-tree", "-r", "HEAD", "--name-only")
+	if err != nil {
+		logrus.Warnf("Failed to fetch languages for %s in %s", repo.URL, repo.TmpDir)
+		return repo
+	}
 
-	out := strings.TrimSuffix(outb.String(), "\n")
 	languages := map[string]int{}
 	for _, s := range strings.Split(out, "\n") {
 		p := path.Join(repo.TmpDir, s)
