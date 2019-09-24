@@ -42,24 +42,30 @@ go mod download
 
 # Build!
 echo "==> Building..."
-gox \
-    -os="${XC_OS}" \
-    -arch="${XC_ARCH}" \
-    -osarch="${XC_EXCLUDE_OSARCH}" \
-    -ldflags "${LD_FLAGS}" \
-    -output "build/bin/{{.OS}}_{{.Arch}}/${PWD##*/}" \
-    .
+if [ "${DEV}" == "" ]; then
+    gox \
+        -os="${XC_OS}" \
+        -arch="${XC_ARCH}" \
+        -osarch="${XC_EXCLUDE_OSARCH}" \
+        -ldflags "${LD_FLAGS}" \
+        -output "build/bin/{{.OS}}_{{.Arch}}/${PWD##*/}" \
+        .
+else 
+    go build --ldflags "${LD_FLAGS}" -o build/bin/  .
+fi
 
-# Zip and copy to the dist dir
-echo "==> Packaging..."
-for PLATFORM in $(find ./build/bin -mindepth 1 -maxdepth 1 -type d); do
-    OSARCH=$(basename ${PLATFORM})
-    echo "--> ${OSARCH}"
+if [ "${DEV}" == "" ]; then
+    # Zip and copy to the dist dir
+    echo "==> Packaging..."
+    for PLATFORM in $(find ./build/bin -mindepth 1 -maxdepth 1 -type d); do
+        OSARCH=$(basename ${PLATFORM})
+        echo "--> ${OSARCH}"
 
-    pushd $PLATFORM >/dev/null 2>&1
-    zip ../../pkg/${OSARCH}.zip ./*
-    popd >/dev/null 2>&1
-done
+        pushd $PLATFORM >/dev/null 2>&1
+        zip ../../pkg/${OSARCH}.zip ./*
+        popd >/dev/null 2>&1
+    done
+fi
 
 # Done!
 echo
