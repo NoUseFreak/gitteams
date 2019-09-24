@@ -34,7 +34,7 @@ func (p *TagCountProcessor) GetReportColumn() ReportColumn {
 func (p *TagCountProcessor) Process(repo Repo) Repo {
 	repo.Data["tagcount"] = 0
 
-	out, err := repoExec(repo, "bash", "-c", "git tag | wc -l")
+	out, err := repoExec(repo, "sh", "-c", "git tag | wc -l")
 	if err != nil {
 		logrus.Warnf("Failed to count tags for %s in %s", repo.URL, repo.TmpDir)
 		return repo

@@ -34,6 +34,7 @@ INFO[0001] Report
 ## Output
 |                 | Description                                           |
 | --------------- | ----------------------------------------------------- |
+| Author count    | Count authors in each repository.                     |
 | Branch count    | Count branches in each repository.                    |
 | Commit count    | Count commits in each repository.                     |
 | Lines of Code   | Count the lines of code in each repository.           |
