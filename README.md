@@ -3,6 +3,7 @@
 [![Build status](https://img.shields.io/travis/NoUseFreak/gitteams/master?style=flat-square)](https://travis-ci.org/NoUseFreak/gitteams)
 [![Release](https://img.shields.io/github/v/release/NoUseFreak/gitteams?style=flat-square)](https://github.com/NoUseFreak/gitteams/releases)
 [![Maintained](https://img.shields.io/maintenance/yes/2019?style=flat-square)](https://github.com/NoUseFreak/gitteams)
+[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/nousefreak/gitteams?style=flat-square)](https://hub.docker.com/r/nousefreak/gitteams)
 [![License](https://img.shields.io/github/license/NoUseFreak/gitteams?style=flat-square)](https://github.com/NoUseFreak/gitteams/blob/master/LICENSE)
 [![Coffee](https://img.shields.io/badge/☕️-Buy%20me%20a%20coffee-blue?style=flat-square&color=blueviolet)](https://www.buymeacoffee.com/driesdepeuter)
 
