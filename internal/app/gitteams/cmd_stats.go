@@ -1,6 +1,8 @@
 package gitteams
 
 import (
+	"strings"
+
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -13,15 +15,28 @@ var statsCmd = &cobra.Command{
 }
 
 func init() {
+	statsCmd.Flags().String("columns", "", "column names seperated by comma")
 	rootCmd.AddCommand(statsCmd)
 }
 
 func executeStats(cmd *cobra.Command, args []string) {
 	processors := []Processor{}
 	reportColumns := []ReportColumn{repositoryColumn}
-	for _, c := range commands {
-		processors = append(processors, c.Processor)
-		reportColumns = append(reportColumns, c.ReportColumn)
+	if columnString, err := cmd.Flags().GetString("columns"); err == nil && columnString != "" {
+		columns := strings.Split(columnString, ",")
+		for _, c := range commands {
+			if idx := getStringSliceIndex(c.Name, columns); idx >= 0 {
+				processors = append(processors, c.Processor)
+				c.ReportColumn.Weight = idx
+				reportColumns = append(reportColumns, c.ReportColumn)
+			}
+		}
+
+	} else {
+		for _, c := range commands {
+			processors = append(processors, c.Processor)
+			reportColumns = append(reportColumns, c.ReportColumn)
+		}
 	}
 
 	logrus.Info("Collecting repos")
@@ -35,4 +50,14 @@ func executeStats(cmd *cobra.Command, args []string) {
 		Sort:    "name",
 		Columns: reportColumns,
 	})
+}
+
+func getStringSliceIndex(v string, s []string) int {
+	for si, sv := range s {
+		if sv == v {
+			return si
+		}
+	}
+
+	return -1
 }

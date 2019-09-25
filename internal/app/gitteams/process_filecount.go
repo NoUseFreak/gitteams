@@ -26,6 +26,7 @@ func (p *FileCountProcessor) GetReportColumn() ReportColumn {
 	return ReportColumn{
 		ID:        "files",
 		Name:      "Files",
+		Weight:    21,
 		Sort:      table.DscNumeric,
 		ValueType: "int",
 		Value:     func(r *Repo) interface{} { return r.Data["files"] },

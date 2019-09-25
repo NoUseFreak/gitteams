@@ -30,6 +30,7 @@ func (p *LanguageProcessor) GetReportColumn() ReportColumn {
 	return ReportColumn{
 		ID:        "language",
 		Name:      "Language",
+		Weight:    100,
 		Sort:      table.Asc,
 		ValueType: "string",
 		Value:     func(r *Repo) interface{} { return r.Data["language"] },

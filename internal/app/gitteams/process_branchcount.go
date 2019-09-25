@@ -26,6 +26,7 @@ func (p *BranchProcessor) GetReportColumn() ReportColumn {
 	return ReportColumn{
 		ID:        "branches",
 		Name:      "branch count",
+		Weight:    10,
 		Sort:      table.DscNumeric,
 		ValueType: "int",
 		Value:     func(r *Repo) interface{} { return len(r.Branches) },

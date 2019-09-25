@@ -26,6 +26,7 @@ func (p *DirCountProcessor) GetReportColumn() ReportColumn {
 	return ReportColumn{
 		ID:        "dirs",
 		Name:      "Directories",
+		Weight:    22,
 		Sort:      table.DscNumeric,
 		ValueType: "int",
 		Value:     func(r *Repo) interface{} { return r.Data["directories"] },

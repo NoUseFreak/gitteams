@@ -2,6 +2,7 @@ package gitteams
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/jedib0t/go-pretty/table"
 	"github.com/spf13/viper"
@@ -15,10 +16,11 @@ func init() {
 }
 
 var repositoryColumn = ReportColumn{
-	ID:    "name",
-	Name:  "Repo",
-	Sort:  table.Asc,
-	Value: func(r *Repo) interface{} { return fmt.Sprintf("%s:%s", r.Origin.Short, r.Name) },
+	ID:     "name",
+	Name:   "Repo",
+	Weight: -100,
+	Sort:   table.Asc,
+	Value:  func(r *Repo) interface{} { return fmt.Sprintf("%s:%s", r.Origin.Short, r.Name) },
 }
 
 // ReportOptions represents how the reports should be shown.
@@ -26,15 +28,6 @@ type ReportOptions struct {
 	Sort    string
 	Format  string
 	Columns []ReportColumn
-}
-
-// ReportColumn defines how the column should be handled in the report.
-type ReportColumn struct {
-	ID        string
-	Name      string
-	Sort      table.SortMode
-	ValueType string
-	Value     func(*Repo) interface{}
 }
 
 // ReportModel is an intermediate data object to allow more dynamic reporting.
@@ -46,6 +39,8 @@ type ReportModel struct {
 // Report generates the actual report.
 func Report(repos []Repo, options *ReportOptions) {
 	options = applyCommandArgs(options)
+
+	sort.Sort(byWeight(options.Columns))
 	model := buildModel(repos, options.Columns)
 
 	tw := table.NewWriter()

@@ -32,6 +32,7 @@ func (p *SizeProcessor) GetReportColumn() ReportColumn {
 	return ReportColumn{
 		ID:        "size",
 		Name:      "size (kb)",
+		Weight:    90,
 		Sort:      table.DscNumeric,
 		ValueType: "float64",
 		Value:     func(r *Repo) interface{} { return r.Data["size"] },

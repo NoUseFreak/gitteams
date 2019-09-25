@@ -26,6 +26,7 @@ func (p *LOCProcessor) GetReportColumn() ReportColumn {
 	return ReportColumn{
 		ID:        "loc",
 		Name:      "Lines of code",
+		Weight:    20,
 		Sort:      table.DscNumeric,
 		ValueType: "int32",
 		Value:     func(r *Repo) interface{} { return r.Data["loc"] },

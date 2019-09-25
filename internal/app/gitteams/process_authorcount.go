@@ -26,6 +26,7 @@ func (p *AuthorCountProcessor) GetReportColumn() ReportColumn {
 	return ReportColumn{
 		ID:        "author",
 		Name:      "author count",
+		Weight:    25,
 		Sort:      table.DscNumeric,
 		ValueType: "int",
 		Value:     func(r *Repo) interface{} { return r.Data["authorcount"] },

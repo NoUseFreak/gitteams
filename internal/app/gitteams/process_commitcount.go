@@ -26,6 +26,7 @@ func (p *CommitCountProcessor) GetReportColumn() ReportColumn {
 	return ReportColumn{
 		ID:        "commits",
 		Name:      "commit count",
+		Weight:    20,
 		Sort:      table.DscNumeric,
 		ValueType: "int",
 		Value:     func(r *Repo) interface{} { return r.Data["commitcount"] },

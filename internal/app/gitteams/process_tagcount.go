@@ -26,6 +26,7 @@ func (p *TagCountProcessor) GetReportColumn() ReportColumn {
 	return ReportColumn{
 		ID:        "tags",
 		Name:      "tag count",
+		Weight:    15,
 		Sort:      table.DscNumeric,
 		ValueType: "int",
 		Value:     func(r *Repo) interface{} { return r.Data["tagcount"] },

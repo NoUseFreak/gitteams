@@ -28,6 +28,7 @@ func (p *MergedProcessor) GetReportColumn() ReportColumn {
 	return ReportColumn{
 		ID:        "merged",
 		Name:      "Merged",
+		Weight:    11,
 		Sort:      table.DscNumeric,
 		ValueType: "int32",
 		Value:     func(r *Repo) interface{} { return r.Data["merged"] },
