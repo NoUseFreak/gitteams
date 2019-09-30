@@ -8,7 +8,7 @@ import (
 func init() {
 	setRootFlag("bitbucket-username", "", "", "Bitbucket username")
 	setRootFlag("bitbucket-password", "", "", "Bitbucket password")
-	setRootFlag("bitbucket-team", "", "", "Bitbucket token")
+	setRootFlag("bitbucket-team", "", "", "Bitbucket team")
 	setRootFlagBool("bitbucket-include-personal", "", true, "Bitbucket include personal repositories")
 }
 
