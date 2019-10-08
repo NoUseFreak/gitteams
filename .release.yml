@@ -1,0 +1,17 @@
+letitgo:
+  name: gitteams
+  description: GitTeams gives you insight into multiple repositories at once.
+
+changelog:
+  - file: CHANGELOG.md
+
+githubrelease:
+  - assets:
+      - ./build/pkg/*
+
+homebrew:
+  - homepage: https://github.com/NoUseFreak/gitteams
+    url: https://github.com/NoUseFreak/gitteams/releases/download/{{ .Version }}/darwin_amd64.zip
+    tap:
+      url: git@github.com:NoUseFreak/homebrew-brew.git
+    test: system "#{bin}/{{ .Name }} -h"
