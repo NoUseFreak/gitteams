@@ -68,6 +68,12 @@ Available Commands:
 
 ## Install
 
+__Homebrew__
+
+```
+brew install nousefreak/brew/gitteams
+```
+
 __Binary__
 
 ```
