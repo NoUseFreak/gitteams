@@ -101,6 +101,8 @@ github.com/ktrysmt/go-bitbucket v0.4.1 h1:2zvvOfZh5Y1T96B2gYDVs3XpxL68gw/f0WSFMy
 github.com/ktrysmt/go-bitbucket v0.4.1/go.mod h1:gGQbTWdw7dtX262/XCcHeWDZEsEzbvnmQD66x227mwI=
 github.com/ktrysmt/go-bitbucket v0.5.2 h1:q0XS69zqwStOSO4WFM2xmW+Rjx/IipNimDTYk1w6GdU=
 github.com/ktrysmt/go-bitbucket v0.5.2/go.mod h1:eq4bfJC9uZf/4rctCcT8motO/BuiF2GsAYjmFhy5JrU=
+github.com/ktrysmt/go-bitbucket v0.5.3 h1:w0FRni6+CQgLr0ag5ySZ5SKL9OkwN3ZMN7ri5EwQ2rQ=
+github.com/ktrysmt/go-bitbucket v0.5.3/go.mod h1:eq4bfJC9uZf/4rctCcT8motO/BuiF2GsAYjmFhy5JrU=
 github.com/magiconair/properties v1.8.0 h1:LLgXmsheXeRoUOBOjtwPQCWIYqM/LU1ayDtDePerRcY=
 github.com/magiconair/properties v1.8.0/go.mod h1:PppfXfuXeibc/6YijjN8zIbojt8czPbwD3XqdrwzmxQ=
 github.com/magiconair/properties v1.8.1 h1:ZC2Vc7/ZFkGmsVC9KvOjumD+G5lXy2RtTKyzRKO2BQ4=

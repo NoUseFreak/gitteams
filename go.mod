@@ -13,7 +13,7 @@ require (
 	github.com/jedib0t/go-pretty v4.3.0+incompatible
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/k0kubun/pp v3.0.1+incompatible // indirect
-	github.com/ktrysmt/go-bitbucket v0.5.2
+	github.com/ktrysmt/go-bitbucket v0.5.3
 	github.com/mattn/go-colorable v0.1.2 // indirect
 	github.com/mattn/go-runewidth v0.0.4 // indirect
 	github.com/sirupsen/logrus v1.4.2
