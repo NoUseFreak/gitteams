@@ -20,7 +20,7 @@ require (
 	github.com/spf13/cobra v0.0.5
 	github.com/spf13/viper v1.6.2
 	github.com/src-d/enry/v2 v2.1.0
-	github.com/xanzy/go-gitlab v0.22.3
+	github.com/xanzy/go-gitlab v0.23.0
 	golang.org/x/net v0.0.0-20190916140828-c8589233b77d // indirect
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45
 )
