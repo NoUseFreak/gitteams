@@ -11,7 +11,6 @@ require (
 	github.com/google/go-github/v28 v28.1.1
 	github.com/hhatto/gocloc v0.3.3
 	github.com/jedib0t/go-pretty v4.3.0+incompatible
-	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/k0kubun/pp v3.0.1+incompatible // indirect
 	github.com/ktrysmt/go-bitbucket v0.5.6
 	github.com/mattn/go-colorable v0.1.2 // indirect
@@ -20,7 +19,7 @@ require (
 	github.com/spf13/cobra v0.0.7
 	github.com/spf13/viper v1.6.3
 	github.com/src-d/enry/v2 v2.1.0
-	github.com/xanzy/go-gitlab v0.31.0
+	github.com/xanzy/go-gitlab v0.32.1
 	golang.org/x/net v0.0.0-20190916140828-c8589233b77d // indirect
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45
 )
