@@ -12,7 +12,7 @@ require (
 	github.com/hhatto/gocloc v0.3.3
 	github.com/jedib0t/go-pretty v4.3.0+incompatible
 	github.com/k0kubun/pp v3.0.1+incompatible // indirect
-	github.com/ktrysmt/go-bitbucket v0.6.0
+	github.com/ktrysmt/go-bitbucket v0.6.2
 	github.com/mattn/go-colorable v0.1.2 // indirect
 	github.com/mattn/go-runewidth v0.0.4 // indirect
 	github.com/sirupsen/logrus v1.6.0
