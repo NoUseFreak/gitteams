@@ -15,7 +15,7 @@ require (
 	github.com/ktrysmt/go-bitbucket v0.6.4
 	github.com/mattn/go-colorable v0.1.2 // indirect
 	github.com/mattn/go-runewidth v0.0.4 // indirect
-	github.com/sirupsen/logrus v1.6.0
+	github.com/sirupsen/logrus v1.7.0
 	github.com/spf13/cobra v0.0.7
 	github.com/spf13/viper v1.7.1
 	github.com/src-d/enry/v2 v2.1.0
