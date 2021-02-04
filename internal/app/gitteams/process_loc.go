@@ -46,7 +46,7 @@ func (p *LOCProcessor) Process(repo Repo) Repo {
 		return repo
 	}
 
-	repo.Data["loc"] = result.Total.Total
+	repo.Data["loc"] = result.Total.Code
 
 	return repo
 }
