@@ -102,7 +102,12 @@ func buildModel(repos []Repo, columns []ReportColumn) ReportModel {
 	for _, repo := range repos {
 		row := []interface{}{}
 		for _, v := range columns {
-			row = append(row, v.Value(&repo))
+			val := v.Value(&repo)
+			if val == nil {
+				row = append(row, 0)
+			} else {
+				row = append(row, v.Value(&repo))
+			}
 		}
 		model.Data = append(model.Data, row)
 	}

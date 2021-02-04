@@ -55,7 +55,10 @@ func (gl *GitlabCollector) collectGitlab(token, group string, personal bool) []R
 }
 
 func (gl *GitlabCollector) fetchGitlabRepos(token, group string, personal bool) []*gitlab.Project {
-	client := gitlab.NewClient(nil, token)
+	client, err := gitlab.NewClient(token)
+	if err != nil {
+		panic(err)
+	}
 
 	all := []*gitlab.Project{}
 

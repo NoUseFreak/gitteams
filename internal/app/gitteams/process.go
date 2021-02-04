@@ -55,6 +55,7 @@ func clone(repo Repo) (Repo, error) {
 		err := cloneCmd.Run()
 		if err != nil {
 			logrus.Errorf("Failed to clone %s (%s)", repo.URL, err)
+			logrus.Trace(cloneCmd.CombinedOutput())
 			return repo, err
 		}
 	} else {

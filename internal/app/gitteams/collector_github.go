@@ -53,7 +53,7 @@ func (gh *GithubCollector) collectGithub(token, team, username string, forks boo
 
 		repo.MainBranch = ghrepo.GetDefaultBranch()
 		repo.Name = ghrepo.GetFullName()
-		repo.URL = ghrepo.GetGitURL()
+		repo.URL = ghrepo.GetSSHURL()
 
 		result = append(result, repo)
 	}

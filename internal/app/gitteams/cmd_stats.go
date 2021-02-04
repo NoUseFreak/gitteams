@@ -1,6 +1,7 @@
 package gitteams
 
 import (
+	"runtime"
 	"strings"
 
 	"github.com/sirupsen/logrus"
@@ -43,7 +44,7 @@ func executeStats(cmd *cobra.Command, args []string) {
 	repos := CollectRepos()
 
 	logrus.Info("Processing")
-	result := Process(repos, 50, processors)
+	result := Process(repos, runtime.NumCPU(), processors)
 
 	logrus.Info("Report")
 	Report(result, &ReportOptions{

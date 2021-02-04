@@ -1,6 +1,8 @@
 package gitteams
 
 import (
+	"runtime"
+
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -34,7 +36,7 @@ func createCommand(c DynamicCommand) {
 			repos := CollectRepos()
 
 			logrus.Info("Processing")
-			result := Process(repos, 50, []Processor{
+			result := Process(repos, runtime.NumCPU(), []Processor{
 				c.Processor,
 			})
 
