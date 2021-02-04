@@ -9,7 +9,6 @@ DIR="$( cd -P "$( dirname "$SOURCE" )/.." && pwd )"
 
 cd "$DIR"
 
-curl -sL http://bit.ly/gh-get | BIN_DIR=/tmp PROJECT=NoUseFreak/letitgo bash
-
-/tmp/letitgo $(git describe --tags --abbrev=0)
-
+mkdir /tmp/bin
+curl -sL http://bit.ly/gh-get | BIN_DIR=/tmp/bin PROJECT=NoUseFreak/letitgo bash
+/tmp/bin/letitgo $(git describe --tags --abbrev=0)
