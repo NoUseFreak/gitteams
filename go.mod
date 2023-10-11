@@ -20,6 +20,6 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/src-d/enry/v2 v2.1.0
 	github.com/xanzy/go-gitlab v0.44.0
-	golang.org/x/net v0.7.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45
 )
